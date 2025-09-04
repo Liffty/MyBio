@@ -258,15 +258,17 @@ body {
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
+  padding-bottom: 0%;
 }
 
 .b-game-card__cover {
-  position: absolute;
+  position: relative;
   z-index: 1;
   top: 0;
   left: 0;
   width: 100%;
-  height: calc(100% - 60px);
+  height: 350px;
+  margin-bottom: 18px;
   overflow: hidden;
   background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
   background-size: cover;
@@ -435,6 +437,7 @@ body {
 }
 
 .card-btn {
+  font-family: 'Unna', serif;
   padding: 10px 24px;
   font-size: 1rem;
   border-radius: 8px;
@@ -449,5 +452,49 @@ body {
 }
 .card-btn:hover {
   background: #64ffda;
-  color: #222;
+}
+
+/* Cursor Styles */
+.cursor,
+.cursor2,
+.cursor3 {
+  position: fixed;
+  border-radius: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  pointer-events: none;
+  left: -100px;
+  top: 50%;
+  mix-blend-mode: difference;
+  transition: all 300ms linear;
+  z-index: 99999;
+}
+.cursor {
+  background-color: #fff;
+  height: 0;
+  width: 0;
+}
+.cursor2,
+.cursor3 {
+  height: 36px;
+  width: 36px;
+  z-index: 99998;
+  transition: all 0.3s ease-out;
+}
+.cursor2.hover,
+.cursor3.hover {
+  transform: scale(2) translateX(-25%) translateY(-25%);
+  border: none;
+}
+.cursor2 {
+  border: 2px solid #fff;
+  box-shadow: 0 0 22px rgba(255, 255, 255, 0.6);
+}
+.cursor2.hover {
+  background: rgba(255,255,255,1);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+}
+@media screen and (max-width: 1200px) {
+  .cursor, .cursor2, .cursor3 {
+    display: none;
+  }
 }
