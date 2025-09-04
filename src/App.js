@@ -5,6 +5,7 @@ import MatrixIntro from './MatrixIntro';
 function App() {
   const [showIntro, setShowIntro] = useState(true);
   const [showContent, setShowContent] = useState(false);
+  const [page, setPage] = useState('main'); // 'main' or 'golf'
 
   const handleIntroComplete = () => {
     setTimeout(() => {
@@ -54,26 +55,32 @@ function App() {
       el.addEventListener("mouseout", removeHover);
     });
 
+    // Always remove hover state when page changes
+    removeHover();
+
     return () => {
       document.body.removeEventListener("mousemove", moveCursor);
       hoverTargets.forEach((el) => {
         el.removeEventListener("mouseover", addHover);
         el.removeEventListener("mouseout", removeHover);
       });
+      removeHover();
     };
-  }, [showContent]);
+  }, [showContent, page]);
+
+  // Handler for Golf button
+  const handleGolfClick = () => setPage('golf');
 
   return (
     <div className="App" style={{ position: "relative", overflow: "hidden" }}>
       {showIntro && <MatrixIntro onIntroComplete={handleIntroComplete} />}
-      
       <div id="stars"></div>
       <div id="stars2"></div>
       <div id="stars3"></div>
       <div className="cursor" id="cursor"></div>
       <div className="cursor2" id="cursor2"></div>
       <div className="cursor3" id="cursor3"></div>
-      {showContent && (
+      {showContent && page === 'main' && (
         <div className="l-container">
           <div className="b-game-card">
             <div
@@ -84,7 +91,7 @@ function App() {
               }}
             ></div>
             <div className="card-btn-container">
-              <button className="card-btn">Personer</button>
+              <button className="card-btn hover-target">History</button>
             </div>
           </div>
           <div className="b-game-card">
@@ -96,7 +103,9 @@ function App() {
               }}
             ></div>
             <div className="card-btn-container">
-              <button className="card-btn">Golf</button>
+              <button className="card-btn hover-target" onClick={handleGolfClick}>
+                Golf
+              </button>
             </div>
           </div>
           <div className="b-game-card">
@@ -108,7 +117,7 @@ function App() {
               }}
             ></div>
             <div className="card-btn-container">
-              <button className="card-btn">Musik</button>
+              <button className="card-btn hover-target">Music</button>
             </div>
           </div>
           <div className="b-game-card">
@@ -120,8 +129,21 @@ function App() {
               }}
             ></div>
             <div className="card-btn-container">
-              <button className="card-btn">"Bla Bla Bla""</button>
+              <button className="card-btn hover-target">Art</button>
             </div>
+          </div>
+        </div>
+      )}
+      {showContent && page === 'golf' && (
+        <div className="golf-page">
+          <h1 style={{ color: "#64ffda", textAlign: "center", marginTop: "60px" }}>Golf Page</h1>
+          <p style={{ textAlign: "center", color: "#fff" }}>
+            Welcome to the golf page! Add your golf content here.
+          </p>
+          <div style={{ textAlign: "center", marginTop: "40px" }}>
+            <button className="card-btn hover-target" onClick={() => setPage('main')}>
+              Back to Main
+            </button>
           </div>
         </div>
       )}
