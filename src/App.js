@@ -138,21 +138,21 @@ function App() {
         <div className="golf-page">
           <h1 style={{ color: "#64ffda", textAlign: "center", marginTop: "60px" }}>What's in my bag?</h1>
           <div className="cards-container">
-            <ul className="cards" style={{ "--items": 10 }}>
+            <ul className="cards" style={{ "--items": 13 }}>
               {[
                 { name: "Putter", desc: "Used for short strokes on the green." },
                 { name: "Driver", desc: "Used for long-distance tee shots." },
-                { name: "2 Iron", desc: "Low-lofted iron for long shots." },
-                { name: "4 Iron", desc: "Mid-lofted iron for approach shots." },
-                { name: "5 Iron", desc: "Versatile iron for fairway shots." },
-                { name: "6 Iron", desc: "Good for mid-range shots." },
-                { name: "7 Iron", desc: "Common iron for approach shots." },
-                { name: "8 Iron", desc: "Higher loft for shorter shots." },
-                { name: "9 Iron", desc: "High-loft iron for short approach shots." },
-                { name: "Pitching Wedge", desc: "Used for short, high shots." },
-                { name: "50° Wedge", desc: "Gap wedge for controlled shots." },
-                { name: "54° Wedge", desc: "Sand wedge for bunker and soft lies." },
-                { name: "60° Wedge", desc: "Lob wedge for high, short shots." }
+                { name: "2-Iron", desc: "Low-lofted iron for long shots." },
+                { name: "4-Iron", desc: "Mid-lofted iron for approach shots." },
+                { name: "5-Iron", desc: "Versatile iron for fairway shots." },
+                { name: "6-Iron", desc: "Good for mid-range shots." },
+                { name: "7-Iron", desc: "Common iron for approach shots." },
+                { name: "8-Iron", desc: "Higher loft for shorter shots." },
+                { name: "9-Iron", desc: "High-loft iron for short approach shots." },
+                { name: "Pitching-Wedge", desc: "Used for short, high shots." },
+                { name: "50°-Wedge", desc: "Gap wedge for controlled shots." },
+                { name: "54°-Wedge", desc: "Sand wedge for bunker and soft lies." },
+                { name: "60°-Wedge", desc: "Lob wedge for high, short shots." }
               ].map((club, i) => (
                 <li key={i} style={{ "--i": i }}>
                   <input

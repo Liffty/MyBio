@@ -500,74 +500,76 @@ body {
 }
 
 .cards-container {
-  --base-rotation: 0deg;
-  --full-circle: 360deg;
-  --radius: 22vw;
-  --duration: 200ms;
-  --cards-container-size: calc(var(--radius) * 2);
-  --cards-container-padding: 2rem;
-  --border-color: transparent;
-  --label-offset: calc(var(--radius) * -1.2);
-  --label-size: 2.2rem;
-  --label-color: #666;
-  --label-color-hover: steelblue;
-  --label-line-h: 0;
-  --label-line-h-current: 2rem;
-  --label-dot-size: 10px;
-  --title-top: 1.5rem;
-  --title-offset-y: 30px;
-  --info-top: 5rem;
-  --info-width: min(70%, 500px);
-  --info-offset-y: 30px;
+  --base-rotation: 0deg; /* The starting rotation of the whole ring (0deg = upright, 180deg = upside down) */
+  --full-circle: 360deg; /* The total degrees in the circle */
+  --radius: 28vw; /* The size of the ring (distance from center to label) */
+  --duration: 200ms; /* Animation duration for transitions */
+  --cards-container-size: calc(var(--radius) * 2); /* The diameter of the ring */
+  --cards-container-padding: 2rem; /* Padding inside the container */
+  --border-color: transparent; /* Border color for the ring (not visible) */
+  --label-offset: calc(var(--radius) * -0.9); /* How far out from the center the labels are placed */
+  --label-size: 2.2rem; /* Size of each label's clickable area */
+  --label-color: #666; /* Default label color */
+  --label-color-hover: steelblue; /* Label color on hover */
+  --label-line-h: 0; /* Height of the line under the label (default) */
+  --label-line-h-current: 1rem; /* Height of the line for the selected label */
+  --label-dot-size: 10px; /* Size of the dot under each label */
+  --title-top: 1.5rem; /* Top offset for the title inside each card */
+  --title-offset-y: 30px; /* Y offset for the title animation */
+  --info-top: 5rem; /* Top offset for the info/description */
+  --info-width: min(70%, 500px); /* Max width for the info/description */
+  --info-offset-y: 30px; /* Y offset for the info animation */
 
-  box-sizing: content-box;
-  position: fixed;
-  inset: 0;
-  margin: 0 auto;
-  width: var(--cards-container-size);
-  height: var(--cards-container-size);
-  padding: var(--cards-container-padding);
-  z-index: 2;
+  box-sizing: content-box; /* Ensures padding is not included in width/height */
+  position: fixed; /* Fixes the container relative to the viewport */
+  inset: 0; /* Stretches the container to all sides (top, right, bottom, left = 0) */
+  margin: 0 auto; /* Centers the container horizontally */
+  width: var(--cards-container-size); /* Sets the width to the diameter */
+  height: var(--cards-container-size); /* Sets the height to the diameter */
+  padding: var(--cards-container-padding); /* Adds padding inside the container */
+  z-index: 2; /* Places the container above most backgrounds */
 }
 
 /* Show half-circle only on desktop */
 @media (min-width: 600px) {
   .cards-container {
-    clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
-    bottom: 0;
-    top: auto;
+    --info-top: 18rem;
+    /*clip-path: polygon(0 25%, 100% 25%, 100% 100%, 0 100%); /* Clips the top half, showing only the bottom half */
+    /*bottom: 0; /* Pins the container to the bottom of the viewport */
+    /* top: auto; /* Unsets the top position */
   }
 }
 
 .cards {
-  position: absolute;
-  inset: var(--cards-container-padding);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  border: 1px solid var(--border-color);
-  transition: transform 0.3s ease-in-out var(--duration);
-  list-style: none;
+  position: absolute; /* Positions the ring absolutely inside the container */
+  inset: var(--cards-container-padding); /* Offsets the ring by the padding */
+  aspect-ratio: 1; /* Keeps the ring perfectly circular */
+  border-radius: 50%; /* Makes the ring round */
+  border: 1px solid var(--border-color); /* Optional border (invisible here) */
+  transition: transform 0.3s ease-in-out var(--duration); /* Smooth rotation */
+  list-style: none; /* Removes default list styling */
 }
 .cards li {
-  position: absolute;
-  inset: 0;
+  position: absolute; /* Each card is absolutely positioned in the ring */
+  inset: 0; /* Stretches each card to the container */
   margin: 0;
   padding: 0;
-  transform-origin: center;
+  transform-origin: center; /* Rotates around the center of the ring */
   display: grid;
   place-content: center;
-  transform: rotate(calc(var(--i) * 360deg / var(--items)));
-  pointer-events: none;
+  transform: rotate(calc(var(--i) * 360deg / var(--items))); /* Rotates each card to its spot on the ring */
+  pointer-events: none; /* Prevents interaction except for the label */
 }
+
 .cards li > label {
-  position: absolute;
+  position: absolute; /* Absolutely positions the label inside the card */
   inset: 0;
   margin: auto;
-  transform: translateY(var(--label-offset));
-  width: var(--label-size);
+  transform: translateY(var(--label-offset)); /* Pushes the label out from the center */
+  width: 120px; /* Sets the clickable area */
   height: var(--label-size);
   cursor: pointer;
-  pointer-events: initial;
+  pointer-events: initial; /* Allows interaction */
   text-align: center;
   color: var(--label-color);
   font-size: clamp(.8rem, 2.5vw + .04rem,1rem);
@@ -597,6 +599,12 @@ body {
   background-color: steelblue;
   transition: height 300ms ease-in-out var(--label-line-delay,0ms);
 }
+
+.cards > li:has(input:checked) > h2 {
+  display: none;
+}
+
+
 .cards li > label:hover {
   --label-color: var(--label-color-hover);
 }
@@ -620,7 +628,7 @@ body {
   width: var(--info-width);
   z-index: 2;
   font-size: clamp(.8rem, 2.5vw + 0.05rem, .9rem);
-  text-align: left;
+  text-align: center;
   text-wrap: pretty;
   opacity: var(--info-opacity,0);
   transition: var(--duration) ease-in-out var(--info-delay,0ms);
@@ -667,16 +675,3 @@ li:has(input:checked) {
 .cards:has(li:nth-child(11)>input:checked) { --index: 10; }
 .cards:has(li:nth-child(12)>input:checked) { --index: 11; }
 .cards:has(li:nth-child(13)>input:checked) { --index: 12; }
-.cards:has(li:nth-child(14)>input:checked) { --index: 13; }
-.cards:has(li:nth-child(15)>input:checked) { --index: 14; }
-.cards:has(li:nth-child(16)>input:checked) { --index: 15; }
-.cards:has(li:nth-child(17)>input:checked) { --index: 16; }
-.cards:has(li:nth-child(18)>input:checked) { --index: 17; }
-.cards:has(li:nth-child(19)>input:checked) { --index: 18; }
-.cards:has(li:nth-child(20)>input:checked) { --index: 19; }
-.cards:has(li:nth-child(21)>input:checked) { --index: 20; }
-.cards:has(li:nth-child(22)>input:checked) { --index: 21; }
-.cards:has(li:nth-child(23)>input:checked) { --index: 22; }
-.cards:has(li:nth-child(24)>input:checked) { --index: 23; }
-.cards:has(li:nth-child(25)>input:checked) { --index: 24; }
-.cards:has(li:nth-child(26)>input:checked) { --index: 25; }
