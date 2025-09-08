@@ -3,9 +3,12 @@ import './App.css';
 import MatrixIntro from './MatrixIntro';
 
 function App() {
+  
+  const [selectedClub, setSelectedClub] = useState(0);
   const [showIntro, setShowIntro] = useState(true);
   const [showContent, setShowContent] = useState(false);
   const [page, setPage] = useState('main'); // 'main' or 'golf'
+  const [rotation, setRotation] = useState(0);
 
   const handleIntroComplete = () => {
     setTimeout(() => {
@@ -70,6 +73,33 @@ function App() {
 
   // Handler for Golf button
   const handleGolfClick = () => setPage('golf');
+
+  // Shortest-path rotation logic
+  const handleSelect = (i) => {
+    const items = clubs.length;
+    const prev = selectedClub;
+    let diff = i - prev;
+    if (diff > items / 2) diff -= items;
+    if (diff < -items / 2) diff += items;
+    setRotation((r) => r - diff * (360 / items));
+    setSelectedClub(i);
+  };
+
+  const clubs = [
+    { name: "Putter", desc: "Used for short strokes on the green." },
+    { name: "Driver", desc: "Used for long-distance tee shots." },
+    { name: "2-Iron", desc: "Low-lofted iron for long shots." },
+    { name: "4-Iron", desc: "Mid-lofted iron for approach shots." },
+    { name: "5-Iron", desc: "Versatile iron for fairway shots." },
+    { name: "6-Iron", desc: "Good for mid-range shots." },
+    { name: "7-Iron", desc: "Common iron for approach shots." },
+    { name: "8-Iron", desc: "Higher loft for shorter shots." },
+    { name: "9-Iron", desc: "High-loft iron for short approach shots." },
+    { name: "Pitching-Wedge", desc: "Used for short, high shots." },
+    { name: "50°-Wedge", desc: "Gap wedge for controlled shots." },
+    { name: "54°-Wedge", desc: "Sand wedge for bunker and soft lies." },
+    { name: "60°-Wedge", desc: "Lob wedge for high, short shots." }
+  ];
 
   return (
     <div className="App" style={{ position: "relative", overflow: "hidden" }}>
@@ -136,30 +166,28 @@ function App() {
       )}
       {showContent && page === 'golf' && (
         <div className="golf-page">
-          <h1 style={{ color: "#64ffda", textAlign: "center", marginTop: "60px" }}>What's in my bag?</h1>
+          <button
+            className="card-btn hover-target back-to-main"
+            onClick={() => setPage('main')}
+          >
+            Back to Main
+          </button>
           <div className="cards-container">
-            <ul className="cards" style={{ "--items": 13 }}>
-              {[
-                { name: "Putter", desc: "Used for short strokes on the green." },
-                { name: "Driver", desc: "Used for long-distance tee shots." },
-                { name: "2-Iron", desc: "Low-lofted iron for long shots." },
-                { name: "4-Iron", desc: "Mid-lofted iron for approach shots." },
-                { name: "5-Iron", desc: "Versatile iron for fairway shots." },
-                { name: "6-Iron", desc: "Good for mid-range shots." },
-                { name: "7-Iron", desc: "Common iron for approach shots." },
-                { name: "8-Iron", desc: "Higher loft for shorter shots." },
-                { name: "9-Iron", desc: "High-loft iron for short approach shots." },
-                { name: "Pitching-Wedge", desc: "Used for short, high shots." },
-                { name: "50°-Wedge", desc: "Gap wedge for controlled shots." },
-                { name: "54°-Wedge", desc: "Sand wedge for bunker and soft lies." },
-                { name: "60°-Wedge", desc: "Lob wedge for high, short shots." }
-              ].map((club, i) => (
+            <ul
+              className="cards"
+              style={{
+                "--items": clubs.length,
+                "--rotation": `${rotation}deg`
+              }}
+            >
+              {clubs.map((club, i) => (
                 <li key={i} style={{ "--i": i }}>
                   <input
                     type="radio"
                     id={`item-${i}`}
                     name="gallery-item"
-                    defaultChecked={i === 0}
+                    checked={selectedClub === i}
+                    onChange={() => handleSelect(i)}
                   />
                   <label htmlFor={`item-${i}`}>{club.name}</label>
                   <h2>{club.name}</h2>
@@ -169,8 +197,8 @@ function App() {
             </ul>
           </div>
           <div style={{ textAlign: "center", marginTop: "40px" }}>
-            <button className="card-btn hover-target" onClick={() => setPage('main')}>
-              Back to Main
+            <button className="card-btn hover-target slå-slag">
+              Slå slag
             </button>
           </div>
         </div>

@@ -25,6 +25,25 @@ body {
   align-items: center;
 }
 
+.back-to-main {
+    position: absolute;
+    top: -300px;
+    left: -575px;
+    z-index: 10;
+  }
+
+.slå-slag {
+  position: absolute;
+  top: 300px;
+  left: 0px;
+  margin-top: 40;
+  text-align: center;
+}
+
+.golf-page {
+  position: relative;
+}
+
 /* Hero Section */
 .hero {
   background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
@@ -502,7 +521,7 @@ body {
 .cards-container {
   --base-rotation: 0deg; /* The starting rotation of the whole ring (0deg = upright, 180deg = upside down) */
   --full-circle: 360deg; /* The total degrees in the circle */
-  --radius: 28vw; /* The size of the ring (distance from center to label) */
+  --radius: 35vw; /* The size of the ring (distance from center to label) */
   --duration: 200ms; /* Animation duration for transitions */
   --cards-container-size: calc(var(--radius) * 2); /* The diameter of the ring */
   --cards-container-padding: 2rem; /* Padding inside the container */
@@ -523,7 +542,12 @@ body {
   box-sizing: content-box; /* Ensures padding is not included in width/height */
   position: fixed; /* Fixes the container relative to the viewport */
   inset: 0; /* Stretches the container to all sides (top, right, bottom, left = 0) */
+  top: 500px;
+  left: 50%;
+  transform: translateX(-50%);
   margin: 0 auto; /* Centers the container horizontally */
+  right: auto;
+  bottom: auto;
   width: var(--cards-container-size); /* Sets the width to the diameter */
   height: var(--cards-container-size); /* Sets the height to the diameter */
   padding: var(--cards-container-padding); /* Adds padding inside the container */
@@ -546,7 +570,8 @@ body {
   aspect-ratio: 1; /* Keeps the ring perfectly circular */
   border-radius: 50%; /* Makes the ring round */
   border: 1px solid var(--border-color); /* Optional border (invisible here) */
-  transition: transform 0.3s ease-in-out var(--duration); /* Smooth rotation */
+  transition: transform 0.3s cubic-bezier(.77,0,.18,1); /* Smooth rotation */
+  transform: rotate(var(--rotation, 0deg));
   list-style: none; /* Removes default list styling */
 }
 .cards li {
@@ -659,19 +684,6 @@ li:has(input:checked) {
   --info-delay: calc(var(--duration) * 4);
 }
 /* rotate container based on checked radio */
-.cards:has(input:checked) {
-  transform: rotate(calc(var(--base-rotation) - (var(--index) * var(--full-circle) / var(--items))));
-}
-.cards:has(li:nth-child(1)>input:checked) { --index: 0; }
-.cards:has(li:nth-child(2)>input:checked) { --index: 1; }
-.cards:has(li:nth-child(3)>input:checked) { --index: 2; }
-.cards:has(li:nth-child(4)>input:checked) { --index: 3; }
-.cards:has(li:nth-child(5)>input:checked) { --index: 4; }
-.cards:has(li:nth-child(6)>input:checked) { --index: 5; }
-.cards:has(li:nth-child(7)>input:checked) { --index: 6; }
-.cards:has(li:nth-child(8)>input:checked) { --index: 7; }
-.cards:has(li:nth-child(9)>input:checked) { --index: 8; }
-.cards:has(li:nth-child(10)>input:checked) { --index: 9; }
-.cards:has(li:nth-child(11)>input:checked) { --index: 10; }
-.cards:has(li:nth-child(12)>input:checked) { --index: 11; }
-.cards:has(li:nth-child(13)>input:checked) { --index: 12; }
+/**.cards:has(input:checked) {
+  transform: rotate(calc(var(--base-rotation, 0deg) - (var(--index, 0) * var(--full-circle, 360deg) / var(--items, 1))));
+}**/
